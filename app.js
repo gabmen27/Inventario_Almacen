@@ -90,7 +90,9 @@ app.post("/api/productos", (req, res) => {
     !producto.sku ||
     !producto.stock_minimo ||
     !producto.id_categoria ||
-    !producto.id_proveedor
+    !producto.id_proveedor ||
+    producto.precio_compra === undefined 
+    || producto.precio_venta === undefined
   ) {
     return res
       .status(400)
@@ -109,12 +111,12 @@ app.post("/api/productos", (req, res) => {
       .json({ status: 400, message: "El estado debe ser un número (0 o 1)" });
   }
 
-  if (!producto.precio_compra) {
+  if (producto.precio_compra<=0) {
     return res
       .status(400)
       .json({ status: 400, message: "El precio de compra debe ser mayor a 0" });
   }
-  if (!producto.precio_venta) {
+  if (producto.precio_venta<=0) {
     return res
       .status(400)
       .json({ status: 400, message: "El precio de venta debe ser mayo a 0" });
