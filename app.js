@@ -97,13 +97,13 @@ app.post("/api/productos", (req, res) => {
       .json({ status: 400, message: "Todos los campos son obligatorios..." });
   }
 
-  if (!producto.estado) {
+  if (producto.estado === undefined || producto.estado === null) {
     return res
       .status(400)
       .json({ status: 400, message: "Campo estado es obligatorio..." });
   }
 
-  if (isNaN(producto.estado) || producto.estado != 1) {
+  if (isNaN(producto.estado) || (producto.estado != 0 && producto.estado !=1)) {
     return res
       .status(400)
       .json({ status: 400, message: "El estado debe ser un número (0 o 1)" });
@@ -150,6 +150,7 @@ app.post("/api/productos", (req, res) => {
     },
   );
 });
+
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
